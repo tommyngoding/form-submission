@@ -1,5 +1,13 @@
 import { Submission } from "../../entity/Submission";
 import { Link } from "react-router-dom";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 interface SubmissionTableProsp {
   submissions: Submission[];
@@ -7,29 +15,29 @@ interface SubmissionTableProsp {
 
 export const SubmissionTable = ({ submissions }: SubmissionTableProsp) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID No.</th>
-          <th>Nama</th>
-          <th>Alamat</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>ID No.</TableCell>
+          <TableCell>Nama</TableCell>
+          <TableCell>Alamat</TableCell>
+          <TableCell></TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {submissions.map((submission, key) => (
-          <tr key={key}>
-            <td>{submission.id}</td>
-            <td>{submission.nama}</td>
-            <td>{submission.alamat}</td>
-            <td>
+          <TableRow key={key}>
+            <TableCell>{submission.id}</TableCell>
+            <TableCell>{submission.nama}</TableCell>
+            <TableCell>{submission.alamat}</TableCell>
+            <TableCell>
               <Link to={`/detail/${submission.id}`}>
-                <button>Detail</button>
+                <Button variant="outlined">Detail</Button>
               </Link>
-            </td>
-          </tr>
+            </TableCell>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
 };

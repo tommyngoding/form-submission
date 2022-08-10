@@ -21,6 +21,7 @@ import { PengalamanKerja } from "./components/PengalamanKerja";
 import { RiwayatPendidikan } from "./components/RiwayatPendidikan";
 import { Keahlian } from "./components/Keahlian";
 import { SuccessStep } from "./components/SuccessStep";
+import { FormStepper } from "./components/FormStepper";
 
 export const FormSubmission = () => {
   const {
@@ -31,6 +32,7 @@ export const FormSubmission = () => {
     SUCCESSSTEP,
   } = STEPS;
   const [currentStep, setCurrentStep] = useState(DATA_PERSONAL);
+  const [currentIndexStep, setCurrentIndexStep] = useState(0);
 
   const [dataPersonalFields, setDataPersonalFields] =
     useState<DataPersonalType>({
@@ -125,7 +127,8 @@ export const FormSubmission = () => {
         ...dataPersonalErMsg,
         namaLengkap: "",
       });
-      setCurrentStep(RIWAYAT_PENDIDIKAN);
+
+      updateStep(RIWAYAT_PENDIDIKAN);
     }
   };
 
@@ -155,7 +158,8 @@ export const FormSubmission = () => {
           },
         ],
       });
-      setCurrentStep(PENGALAMAN_KERJA);
+
+      updateStep(PENGALAMAN_KERJA);
     }
   };
 
@@ -208,7 +212,7 @@ export const FormSubmission = () => {
           },
         ],
       });
-      setCurrentStep(KEAHLIAN);
+      updateStep(KEAHLIAN);
     }
   };
 
@@ -255,7 +259,8 @@ export const FormSubmission = () => {
         ],
       });
       storeToLocal();
-      setCurrentStep(SUCCESSSTEP);
+
+      updateStep(SUCCESSSTEP);
     }
   };
 
@@ -302,9 +307,25 @@ export const FormSubmission = () => {
     localStorage.setItem(LOCALSTORAGE_KEYNAME, JSON.stringify(saveData));
   };
 
+  const updateStep = (currentStep: string) => {
+    setCurrentStep(currentStep);
+    let indexStep = 0;
+    if (currentStep === DATA_PERSONAL) {
+      indexStep = 0;
+    } else if (currentStep === RIWAYAT_PENDIDIKAN) {
+      indexStep = 1;
+    } else if (currentStep === PENGALAMAN_KERJA) {
+      indexStep = 2;
+    } else {
+      indexStep = 3;
+    }
+    setCurrentIndexStep(indexStep);
+  };
+
   return (
     <>
       <h1>Form submission</h1>
+      <FormStepper currentStep={currentIndexStep} />
       {(() => {
         switch (currentStep) {
           case RIWAYAT_PENDIDIKAN:

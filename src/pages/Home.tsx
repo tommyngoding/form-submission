@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { LOCALSTORAGE_KEYNAME } from "../constants";
 import { Submission } from "../entity/Submission";
+import { Button } from "@mui/material";
 
 export const Home = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
@@ -27,7 +28,7 @@ export const Home = () => {
       <div>
         <Link to="/form-submission">
           {" "}
-          <button>+ Add data</button>
+          <Button variant="contained">+ Add data</Button>
         </Link>
       </div>
       <SubmissionTable submissions={submissions} />
