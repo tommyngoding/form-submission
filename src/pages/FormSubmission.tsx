@@ -8,11 +8,16 @@ import {
   RiwayataPendidikanErrorMessage,
   RiwayatPendidikan as RiwayatPendidikanType,
 } from "../entity/RiwayatPendidikan";
+import {
+  PengalamanKerjaErrorMessage,
+  PengalamanKerja as PengalamanKerjaType,
+} from "../entity/PengalamanKerja";
 import { DataPersonal } from "./components/DataPersonal";
+import { PengalamanKerja } from "./components/PengalamanKerja";
 import { RiwayatPendidikan } from "./components/RiwayatPendidikan";
 
 export const FormSubmission = () => {
-  const { DATA_PERSONAL, RIWAYAT_PENDIDIKAN } = STEPS;
+  const { DATA_PERSONAL, RIWAYAT_PENDIDIKAN, PENGALAMAN_KERJA } = STEPS;
   const [currentStep, setCurrentStep] = useState(DATA_PERSONAL);
 
   const [dataPersonalFields, setDataPersonalFields] =
@@ -44,6 +49,30 @@ export const FormSubmission = () => {
         },
         {
           namaSekolah: "",
+        },
+      ],
+    });
+
+  const [pengalamanKerjaFields, setPengalamanKerjaFields] =
+    useState<PengalamanKerjaType>({
+      daftarKerja: [
+        {
+          namaPerusahaan: "",
+        },
+        {
+          namaPerusahaan: "",
+        },
+      ],
+    });
+
+  const [pengalamanKerjaErMsg, setPengalamanKerjaErMsg] =
+    useState<PengalamanKerjaErrorMessage>({
+      daftarError: [
+        {
+          namaPerusahaan: "",
+        },
+        {
+          namaPerusahaan: "",
         },
       ],
     });
@@ -90,7 +119,7 @@ export const FormSubmission = () => {
           },
         ],
       });
-      // setCurrentStep(RIWAYAT_PENDIDIKAN);
+      setCurrentStep(PENGALAMAN_KERJA);
     }
   };
 
@@ -104,7 +133,6 @@ export const FormSubmission = () => {
   const riwayatPendidikanHandleChange = (
     e: React.FormEvent<HTMLInputElement>
   ) => {
-    console.log("eeee...");
     setRiwayatPendidikanFields({
       ...riwayatPendidikanFields,
       daftarSekolah: [
@@ -113,6 +141,52 @@ export const FormSubmission = () => {
         },
         {
           namaSekolah: "",
+        },
+      ],
+    });
+  };
+
+  const pengalamanKerjaSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (pengalamanKerjaFields.daftarKerja[0].namaPerusahaan.length === 0) {
+      setPengalamanKerjaErMsg({
+        ...pengalamanKerjaErMsg,
+        daftarError: [
+          {
+            namaPerusahaan: "Nama perusahaan tidak boleh kosong",
+          },
+          {
+            namaPerusahaan: "",
+          },
+        ],
+      });
+    } else {
+      setPengalamanKerjaErMsg({
+        ...pengalamanKerjaErMsg,
+        daftarError: [
+          {
+            namaPerusahaan: "",
+          },
+          {
+            namaPerusahaan: "",
+          },
+        ],
+      });
+      // setCurrentStep(PENGALAMAN_KERJA);
+    }
+  };
+
+  const pengalamanKerjaHandleChange = (
+    e: React.FormEvent<HTMLInputElement>
+  ) => {
+    setPengalamanKerjaFields({
+      ...pengalamanKerjaFields,
+      daftarKerja: [
+        {
+          namaPerusahaan: e.currentTarget.value,
+        },
+        {
+          namaPerusahaan: "",
         },
       ],
     });
@@ -130,6 +204,15 @@ export const FormSubmission = () => {
                 fields={riwayatPendidikanFields}
                 errorMessage={riwayatPendidikanErMsg}
                 handleChange={riwayatPendidikanHandleChange}
+              />
+            );
+          case PENGALAMAN_KERJA:
+            return (
+              <PengalamanKerja
+                handleSubmit={pengalamanKerjaSubmit}
+                fields={pengalamanKerjaFields}
+                errorMessage={pengalamanKerjaErMsg}
+                handleChange={pengalamanKerjaHandleChange}
               />
             );
           default:
