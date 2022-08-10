@@ -16,6 +16,14 @@ describe("FormSubmission", () => {
     user.click(screen.getByRole("button", { name: /next/i }));
   };
 
+  const fillPengalamanKerjaAndSubmit = () => {
+    user.type(
+      screen.getByRole("textbox", { name: /nama perusahaan/i }),
+      "perusahaan 1"
+    );
+    user.click(screen.getByRole("button", { name: /next/i }));
+  };
+
   it("renders error message when next button is clicked", () => {
     render(<FormSubmission />);
     user.click(screen.getByRole("button", { name: /next/i }));
@@ -94,13 +102,43 @@ describe("FormSubmission", () => {
     expect(
       screen.getByText(/nama perusahaan tidak boleh kosong/i)
     ).toBeInTheDocument();
-    user.type(
-      screen.getByRole("textbox", { name: /nama perusahaan/i }),
-      "perusahaan 1"
-    );
-    user.click(screen.getByRole("button", { name: /next/i }));
+    fillPengalamanKerjaAndSubmit();
     expect(
       screen.queryByText(/nama perusahaan tidak boleh kosong/i)
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows next step when fields are filled and next button on pengalaman kerja is clicked", () => {
+    render(<FormSubmission />);
+
+    fillDataPersonalAndSubmit();
+    fillRiwayatPendidikanAndSubmit();
+    fillPengalamanKerjaAndSubmit();
+    expect(
+      screen.getByRole("button", { name: "+ Add another skill" })
+    ).toBeInTheDocument();
+  });
+
+  it("renders error message when next button on keahlian is clicked", () => {
+    render(<FormSubmission />);
+    fillDataPersonalAndSubmit();
+    fillRiwayatPendidikanAndSubmit();
+    fillPengalamanKerjaAndSubmit();
+    user.click(screen.getByRole("button", { name: /submit/i }));
+    expect(screen.getByText(/skill tidak boleh kosong/i)).toBeInTheDocument();
+  });
+
+  it("hides error message when keahlian field is filled and next button is clicked", () => {
+    render(<FormSubmission />);
+    fillDataPersonalAndSubmit();
+    fillRiwayatPendidikanAndSubmit();
+    fillPengalamanKerjaAndSubmit();
+    user.click(screen.getByRole("button", { name: /submit/i }));
+    expect(screen.getByText(/skill tidak boleh kosong/i)).toBeInTheDocument();
+    user.type(screen.getByPlaceholderText("Input skill"), "javascript");
+    user.click(screen.getByRole("button", { name: /submit/i }));
+    expect(
+      screen.queryByText(/skill tidak boleh kosong/i)
     ).not.toBeInTheDocument();
   });
 });

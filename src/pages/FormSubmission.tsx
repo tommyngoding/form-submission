@@ -12,12 +12,18 @@ import {
   PengalamanKerjaErrorMessage,
   PengalamanKerja as PengalamanKerjaType,
 } from "../entity/PengalamanKerja";
+import {
+  DaftarKeahlianErrorMessage,
+  DaftarKeahlian as DaftarKeahlianType,
+} from "../entity/Keahlian";
 import { DataPersonal } from "./components/DataPersonal";
 import { PengalamanKerja } from "./components/PengalamanKerja";
 import { RiwayatPendidikan } from "./components/RiwayatPendidikan";
+import { Keahlian } from "./components/Keahlian";
 
 export const FormSubmission = () => {
-  const { DATA_PERSONAL, RIWAYAT_PENDIDIKAN, PENGALAMAN_KERJA } = STEPS;
+  const { DATA_PERSONAL, RIWAYAT_PENDIDIKAN, PENGALAMAN_KERJA, KEAHLIAN } =
+    STEPS;
   const [currentStep, setCurrentStep] = useState(DATA_PERSONAL);
 
   const [dataPersonalFields, setDataPersonalFields] =
@@ -73,6 +79,30 @@ export const FormSubmission = () => {
         },
         {
           namaPerusahaan: "",
+        },
+      ],
+    });
+
+  const [daftarKeahlianFields, setDaftarKeahlianFields] =
+    useState<DaftarKeahlianType>({
+      daftarKeahlian: [
+        {
+          nama: "",
+        },
+        {
+          nama: "",
+        },
+      ],
+    });
+
+  const [daftarKeahlianErMsg, setDaftarKeahlianErMsg] =
+    useState<DaftarKeahlianErrorMessage>({
+      daftarError: [
+        {
+          nama: "",
+        },
+        {
+          nama: "",
         },
       ],
     });
@@ -172,7 +202,7 @@ export const FormSubmission = () => {
           },
         ],
       });
-      // setCurrentStep(PENGALAMAN_KERJA);
+      setCurrentStep(KEAHLIAN);
     }
   };
 
@@ -187,6 +217,50 @@ export const FormSubmission = () => {
         },
         {
           namaPerusahaan: "",
+        },
+      ],
+    });
+  };
+
+  const daftarKeahlianSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (daftarKeahlianFields.daftarKeahlian[0].nama.length === 0) {
+      setDaftarKeahlianErMsg({
+        ...daftarKeahlianErMsg,
+        daftarError: [
+          {
+            nama: "Nama skill tidak boleh kosong",
+          },
+          {
+            nama: "",
+          },
+        ],
+      });
+    } else {
+      setDaftarKeahlianErMsg({
+        ...daftarKeahlianErMsg,
+        daftarError: [
+          {
+            nama: "",
+          },
+          {
+            nama: "",
+          },
+        ],
+      });
+      // setCurrentStep(KEAHLIAN);
+    }
+  };
+
+  const daftarKeahlianHandleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setDaftarKeahlianFields({
+      ...daftarKeahlianFields,
+      daftarKeahlian: [
+        {
+          nama: e.currentTarget.value,
+        },
+        {
+          nama: "",
         },
       ],
     });
@@ -213,6 +287,15 @@ export const FormSubmission = () => {
                 fields={pengalamanKerjaFields}
                 errorMessage={pengalamanKerjaErMsg}
                 handleChange={pengalamanKerjaHandleChange}
+              />
+            );
+          case KEAHLIAN:
+            return (
+              <Keahlian
+                handleSubmit={daftarKeahlianSubmit}
+                fields={daftarKeahlianFields}
+                errorMessage={daftarKeahlianErMsg}
+                handleChange={daftarKeahlianHandleChange}
               />
             );
           default:
