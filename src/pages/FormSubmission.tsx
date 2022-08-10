@@ -23,6 +23,12 @@ import { Keahlian } from "./components/Keahlian";
 import { SuccessStep } from "./components/SuccessStep";
 import { FormStepper } from "./components/FormStepper";
 import { Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import {
+  noErrorMessage,
+  validateDataPersonal,
+  validatePendidikan,
+} from "../validator";
 
 export const FormSubmission = () => {
   const {
@@ -32,16 +38,23 @@ export const FormSubmission = () => {
     KEAHLIAN,
     SUCCESSSTEP,
   } = STEPS;
+  let navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(DATA_PERSONAL);
   const [currentIndexStep, setCurrentIndexStep] = useState(0);
 
   const [dataPersonalFields, setDataPersonalFields] =
     useState<DataPersonalType>({
       namaLengkap: "",
+      nomorTelepon: "",
+      alamat: "",
+      email: "",
     });
   const [dataPersonalErMsg, setDataPersonalErMsg] =
     useState<DataPersonalErrorMessage>({
       namaLengkap: "",
+      nomorTelepon: "",
+      alamat: "",
+      email: "",
     });
 
   const [riwayatPendidikanFields, setRiwayatPendidikanFields] =
@@ -49,9 +62,19 @@ export const FormSubmission = () => {
       daftarSekolah: [
         {
           namaSekolah: "",
+          jenjang: "",
+          ipk: "",
+          tahunMasuk: "",
+          tahunLulus: "",
+          jurusan: "",
         },
         {
           namaSekolah: "",
+          jenjang: "",
+          ipk: "",
+          tahunMasuk: "",
+          tahunLulus: "",
+          jurusan: "",
         },
       ],
     });
@@ -61,9 +84,19 @@ export const FormSubmission = () => {
       daftarError: [
         {
           namaSekolah: "",
+          jenjang: "",
+          ipk: "",
+          tahunMasuk: "",
+          tahunLulus: "",
+          jurusan: "",
         },
         {
           namaSekolah: "",
+          jenjang: "",
+          ipk: "",
+          tahunMasuk: "",
+          tahunLulus: "",
+          jurusan: "",
         },
       ],
     });
@@ -118,48 +151,26 @@ export const FormSubmission = () => {
 
   const dataPersonalSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (dataPersonalFields.namaLengkap.length === 0) {
-      setDataPersonalErMsg({
-        ...dataPersonalErMsg,
-        namaLengkap: "Nama lengkap tidak boleh kosong",
-      });
-    } else {
-      setDataPersonalErMsg({
-        ...dataPersonalErMsg,
-        namaLengkap: "",
-      });
 
+    const erMsg = validateDataPersonal(dataPersonalFields);
+
+    setDataPersonalErMsg(erMsg);
+
+    if (noErrorMessage(erMsg)) {
       updateStep(RIWAYAT_PENDIDIKAN);
     }
   };
 
   const riwayatPendidikanSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (riwayatPendidikanFields.daftarSekolah[0].namaSekolah.length === 0) {
-      setRiwayatPendidikanErMsg({
-        ...riwayatPendidikanErMsg,
-        daftarError: [
-          {
-            namaSekolah: "Nama sekolah tidak boleh kosong",
-          },
-          {
-            namaSekolah: "",
-          },
-        ],
-      });
-    } else {
-      setRiwayatPendidikanErMsg({
-        ...riwayatPendidikanErMsg,
-        daftarError: [
-          {
-            namaSekolah: "",
-          },
-          {
-            namaSekolah: "",
-          },
-        ],
-      });
 
+    const erMsg = validatePendidikan(riwayatPendidikanFields.daftarSekolah[0]);
+
+    setRiwayatPendidikanErMsg({
+      daftarError: [erMsg],
+    });
+
+    if (noErrorMessage(erMsg)) {
       updateStep(PENGALAMAN_KERJA);
     }
   };
@@ -167,24 +178,34 @@ export const FormSubmission = () => {
   const dataPersonalHandleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setDataPersonalFields({
       ...dataPersonalFields,
-      namaLengkap: e.currentTarget.value,
+      [e.currentTarget.name]: e.currentTarget.value,
     });
   };
 
   const riwayatPendidikanHandleChange = (
     e: React.FormEvent<HTMLInputElement>
   ) => {
-    setRiwayatPendidikanFields({
-      ...riwayatPendidikanFields,
-      daftarSekolah: [
-        {
-          namaSekolah: e.currentTarget.value,
-        },
-        {
-          namaSekolah: "",
-        },
-      ],
-    });
+    const name = e.currentTarget.name;
+    let pos = name.search("first");
+    let finalName = "";
+    let indexData = -1;
+    if (pos >= 0) {
+      finalName = name.slice(5, name.length);
+      indexData = 0;
+    }
+
+    if (indexData === 0) {
+      setRiwayatPendidikanFields({
+        ...riwayatPendidikanFields,
+        daftarSekolah: [
+          {
+            ...riwayatPendidikanFields.daftarSekolah[0],
+            [finalName]: e.currentTarget.value,
+          },
+          riwayatPendidikanFields.daftarSekolah[1],
+        ],
+      });
+    }
   };
 
   const pengalamanKerjaSubmit = (e: React.SyntheticEvent) => {
@@ -336,6 +357,7 @@ export const FormSubmission = () => {
                 fields={riwayatPendidikanFields}
                 errorMessage={riwayatPendidikanErMsg}
                 handleChange={riwayatPendidikanHandleChange}
+                handleBack={() => updateStep(DATA_PERSONAL)}
               />
             );
           case PENGALAMAN_KERJA:
@@ -345,6 +367,7 @@ export const FormSubmission = () => {
                 fields={pengalamanKerjaFields}
                 errorMessage={pengalamanKerjaErMsg}
                 handleChange={pengalamanKerjaHandleChange}
+                handleBack={() => updateStep(RIWAYAT_PENDIDIKAN)}
               />
             );
           case KEAHLIAN:
@@ -354,6 +377,7 @@ export const FormSubmission = () => {
                 fields={daftarKeahlianFields}
                 errorMessage={daftarKeahlianErMsg}
                 handleChange={daftarKeahlianHandleChange}
+                handleBack={() => updateStep(PENGALAMAN_KERJA)}
               />
             );
           case SUCCESSSTEP:
@@ -365,6 +389,7 @@ export const FormSubmission = () => {
                 fields={dataPersonalFields}
                 errorMessage={dataPersonalErMsg}
                 handleChange={dataPersonalHandleChange}
+                handleBack={() => navigate("/")}
               />
             );
         }

@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import React, { useState } from "react";
 import {
   RiwayataPendidikanErrorMessage,
@@ -12,6 +12,7 @@ interface RiwayPendidikanProps {
   fields: RiwayatPendidikanType;
   errorMessage: RiwayataPendidikanErrorMessage;
   handleChange: React.FormEventHandler;
+  handleBack: React.FormEventHandler;
 }
 
 const defaultProps: RiwayPendidikanProps = {
@@ -20,9 +21,19 @@ const defaultProps: RiwayPendidikanProps = {
     daftarSekolah: [
       {
         namaSekolah: "",
+        jenjang: "",
+        ipk: "",
+        tahunMasuk: "",
+        tahunLulus: "",
+        jurusan: "",
       },
       {
         namaSekolah: "",
+        jenjang: "",
+        ipk: "",
+        tahunMasuk: "",
+        tahunLulus: "",
+        jurusan: "",
       },
     ],
   },
@@ -30,13 +41,24 @@ const defaultProps: RiwayPendidikanProps = {
     daftarError: [
       {
         namaSekolah: "",
+        jenjang: "",
+        ipk: "",
+        tahunMasuk: "",
+        tahunLulus: "",
+        jurusan: "",
       },
       {
         namaSekolah: "",
+        jenjang: "",
+        ipk: "",
+        tahunMasuk: "",
+        tahunLulus: "",
+        jurusan: "",
       },
     ],
   },
   handleChange: () => {},
+  handleBack: () => {},
 };
 
 export const RiwayatPendidikan = ({
@@ -44,6 +66,7 @@ export const RiwayatPendidikan = ({
   fields,
   errorMessage,
   handleChange,
+  handleBack,
 }: RiwayPendidikanProps) => {
   const [showSecondBox, setShowSecondBox] = useState(false);
 
@@ -57,35 +80,42 @@ export const RiwayatPendidikan = ({
       <div>
         <div>
           <form onSubmit={handleSubmit}>
-            <Paper className="paper-form">
-              <RiwayatPendidikanFields
-                prefix="first"
-                pendidikan={fields.daftarSekolah[0]}
-                errorMessage={errorMessage.daftarError[0]}
-                handleChange={handleChange}
-              />
-              {showSecondBox && (
+            <Paper className="paper-form two-paper">
+              <div className="paper-one">
                 <RiwayatPendidikanFields
-                  prefix="second"
-                  pendidikan={fields.daftarSekolah[1]}
-                  errorMessage={errorMessage.daftarError[1]}
+                  prefix="first"
+                  pendidikan={fields.daftarSekolah[0]}
+                  errorMessage={errorMessage.daftarError[0]}
                   handleChange={handleChange}
                 />
-              )}
-              {!showSecondBox && (
-                <AddForm
-                  onClick={handleAdd}
-                  testId="add-riwayat-pendidikan"
-                  text=" Add riwayat pendidikan"
-                />
-              )}
+              </div>
+              <div className="paper-two">
+                {showSecondBox && (
+                  <RiwayatPendidikanFields
+                    prefix="second"
+                    pendidikan={fields.daftarSekolah[1]}
+                    errorMessage={errorMessage.daftarError[1]}
+                    handleChange={handleChange}
+                  />
+                )}
+                {!showSecondBox && (
+                  <AddForm
+                    onClick={handleAdd}
+                    testId="add-riwayat-pendidikan"
+                    text=" Add riwayat pendidikan"
+                  />
+                )}
+              </div>
             </Paper>
             <div className="input-container">
+              <Button onClick={handleBack} className="back-button">
+                {"< Back to Data Personal"}
+              </Button>
               <input
                 className="input-submit"
                 type="submit"
                 name="submit"
-                value="next"
+                value="Continue to Pengalaman Kerja"
               />
             </div>
           </form>

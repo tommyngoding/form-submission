@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import React, { useState } from "react";
 import {
   PengalamanKerjaErrorMessage,
@@ -12,6 +12,7 @@ interface PengalamanKerjaProps {
   fields: PengalamanKerjaType;
   errorMessage: PengalamanKerjaErrorMessage;
   handleChange: React.FormEventHandler;
+  handleBack: React.FormEventHandler;
 }
 
 const defaultProps: PengalamanKerjaProps = {
@@ -37,6 +38,7 @@ const defaultProps: PengalamanKerjaProps = {
     ],
   },
   handleChange: () => {},
+  handleBack: () => {},
 };
 
 export const PengalamanKerja = ({
@@ -44,6 +46,7 @@ export const PengalamanKerja = ({
   fields,
   errorMessage,
   handleChange,
+  handleBack,
 }: PengalamanKerjaProps) => {
   const [showSecondBox, setShowSecondBox] = useState(false);
 
@@ -57,35 +60,42 @@ export const PengalamanKerja = ({
       <div>
         <div>
           <form onSubmit={handleSubmit}>
-            <Paper className="paper-form">
-              <PengalamanKerjaFields
-                prefix="first"
-                kerja={fields.daftarKerja[0]}
-                errorMessage={errorMessage.daftarError[0]}
-                handleChange={handleChange}
-              />
-              {showSecondBox && (
+            <Paper className="paper-form two-paper">
+              <div className="paper-one">
                 <PengalamanKerjaFields
-                  prefix="second"
-                  kerja={fields.daftarKerja[1]}
-                  errorMessage={errorMessage.daftarError[1]}
+                  prefix="first"
+                  kerja={fields.daftarKerja[0]}
+                  errorMessage={errorMessage.daftarError[0]}
                   handleChange={handleChange}
                 />
-              )}
-              {!showSecondBox && (
-                <AddForm
-                  onClick={handleAdd}
-                  testId="add-pengalaman-kerja"
-                  text=" Add pengalaman kerja"
-                />
-              )}
+              </div>
+              <div className="paper-two">
+                {showSecondBox && (
+                  <PengalamanKerjaFields
+                    prefix="second"
+                    kerja={fields.daftarKerja[1]}
+                    errorMessage={errorMessage.daftarError[1]}
+                    handleChange={handleChange}
+                  />
+                )}
+                {!showSecondBox && (
+                  <AddForm
+                    onClick={handleAdd}
+                    testId="add-pengalaman-kerja"
+                    text=" Add pengalaman kerja"
+                  />
+                )}
+              </div>
             </Paper>
             <div className="input-container">
+              <Button onClick={handleBack} className="back-button">
+                {"< Back to Riwayat Pendidikan"}
+              </Button>
               <input
                 className="input-submit"
                 type="submit"
                 name="submit"
-                value="next"
+                value="Continue to Keahlian"
               />
             </div>
           </form>

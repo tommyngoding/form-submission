@@ -6,11 +6,10 @@ interface AddFormProps {
 
 export const AddForm = ({ onClick, testId, text }: AddFormProps) => {
   return (
-    <div>
-      <button data-testid={testId} onClick={onClick}>
-        +
-      </button>
-      {text}
-    </div>
+    <button data-testid={testId} onClick={onClick} className="add-form-btn">
+      <span className="plus-sign">+</span>
+      <br />
+      <span>{text}</span>
+    </button>
   );
 };

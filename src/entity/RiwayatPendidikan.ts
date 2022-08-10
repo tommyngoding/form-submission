@@ -1,5 +1,10 @@
 export interface Pendidikan {
   namaSekolah: string;
+  jurusan: string;
+  ipk: string;
+  jenjang: string;
+  tahunMasuk: string;
+  tahunLulus: string;
 }
 
 export interface RiwayatPendidikan {
@@ -8,6 +13,11 @@ export interface RiwayatPendidikan {
 
 export interface PendidikanErrorMessage {
   namaSekolah: string;
+  jurusan: string;
+  ipk: string;
+  jenjang: string;
+  tahunMasuk: string;
+  tahunLulus: string;
 }
 
 export interface RiwayataPendidikanErrorMessage {

@@ -8,14 +8,20 @@ describe("Keahlian", () => {
     expect(
       screen.getByRole("button", { name: "+ Add another skill" })
     ).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Input skill")).toBeInTheDocument();
+    expect(
+      screen.getByRole("textbox", { name: /skill name/i })
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
   });
 
   it("renders new field when add another skill btn is clicked", () => {
     render(<Keahlian />);
-    expect(screen.getAllByPlaceholderText("Input skill")).toHaveLength(1);
+    expect(
+      screen.getAllByRole("textbox", { name: /skill name/i })
+    ).toHaveLength(1);
     user.click(screen.getByRole("button", { name: "+ Add another skill" }));
-    expect(screen.getAllByPlaceholderText("Input skill")).toHaveLength(2);
+    expect(
+      screen.getAllByRole("textbox", { name: /skill name/i })
+    ).toHaveLength(2);
   });
 });

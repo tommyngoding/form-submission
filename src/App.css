@@ -38,8 +38,9 @@
 }
 
 .input-submit {
-  border: 1px solid #6e6e6e;
-  background-color: white;
+  border: 1px solid #4aaeff;
+  background-color: #4aaeff;
+  color: white;
   padding: 16px 32px;
   text-decoration: none;
   margin: 4px 2px;
@@ -47,11 +48,58 @@
 }
 .input-container {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   padding: 20px 0px;
 }
 .paper-form {
   padding: 20px;
-  background-color: #94dad0 !important;
   margin-top: 20px;
+}
+
+.paper-form-single {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.home-topbar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+a {
+  text-decoration: none;
+}
+.table-submission thead {
+  background-color: #b3d0ff;
+}
+.table-submission th {
+  font-weight: bold;
+}
+.two-paper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.paper-one,
+.paper-two {
+  flex: 1;
+}
+.add-form-btn {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.add-form-btn .plus-sign {
+  font-size: 40px;
+  font-weight: bold;
+}
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.back-button {
+  color: #282c34 !important;
 }

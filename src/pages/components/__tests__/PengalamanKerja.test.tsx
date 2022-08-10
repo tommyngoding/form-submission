@@ -9,7 +9,12 @@ describe("PengalamanKerja", () => {
     expect(
       screen.getByRole("textbox", { name: /nama perusahaan/i })
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /next/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /continue to keahlian/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /back to riwayat pendidikan/i })
+    ).toBeInTheDocument();
     expect(screen.getByTestId("add-pengalaman-kerja")).toBeInTheDocument();
   });
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { LOCALSTORAGE_KEYNAME } from "../constants";
 import { Submission } from "../entity/Submission";
-import { Button } from "@mui/material";
+import { Button, Container } from "@mui/material";
 
 export const Home = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
@@ -23,15 +23,18 @@ export const Home = () => {
   }, []);
 
   return (
-    <>
-      <h1>Teravin test React.js</h1>
-      <div>
-        <Link to="/form-submission">
-          {" "}
-          <Button variant="contained">+ Add data</Button>
-        </Link>
+    <Container>
+      <div className="home-topbar">
+        <h1>Teravin test React.js</h1>
+        <div>
+          <Link to="/form-submission">
+            {" "}
+            <Button variant="contained">+ Add data</Button>
+          </Link>
+        </div>
       </div>
+
       <SubmissionTable submissions={submissions} />
-    </>
+    </Container>
   );
 };

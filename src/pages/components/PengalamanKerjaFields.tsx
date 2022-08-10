@@ -1,3 +1,4 @@
+import { Paper, TextField } from "@mui/material";
 import { Kerja, KerjaErrorMessage } from "../../entity/PengalamanKerja";
 
 interface RiwayatPendidikanBFProps {
@@ -14,18 +15,18 @@ export const PengalamanKerjaFields = ({
   handleChange,
 }: RiwayatPendidikanBFProps) => {
   return (
-    <>
-      <label htmlFor={`${prefix}_namaperusahaan`}>Nama Perusahaan</label>
-      <input
-        type="text"
+    <Paper style={{ padding: "20px" }}>
+      <TextField
+        error={errorMessage.namaPerusahaan.length > 0 ? true : false}
         id={`${prefix}_namaperusahaan`}
+        label="Nama Perusahaan *"
+        variant="outlined"
         name={`${prefix}nama_perusahaan`}
         value={kerja.namaPerusahaan}
         onChange={handleChange}
+        fullWidth
+        helperText={errorMessage.namaPerusahaan}
       />
-      {errorMessage.namaPerusahaan.length > 0 && (
-        <span>{errorMessage.namaPerusahaan}</span>
-      )}
-    </>
+    </Paper>
   );
 };
