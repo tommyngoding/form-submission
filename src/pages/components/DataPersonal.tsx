@@ -1,3 +1,4 @@
+import { Paper } from "@mui/material";
 import {
   DataPersonal as DataPersonalType,
   DataPersonalErrorMessage,
@@ -28,8 +29,8 @@ export const DataPersonal = ({
   handleChange,
 }: DataPersonalProps) => {
   return (
-    <>
-      <form role="form" onSubmit={handleSubmit}>
+    <form role="form" onSubmit={handleSubmit}>
+      <Paper className="paper-form">
         <label htmlFor="namalengkap">Nama Lengkap</label>
         <input
           type="text"
@@ -42,10 +43,16 @@ export const DataPersonal = ({
         {errorMessage.namaLengkap.length > 0 && (
           <span>{errorMessage.namaLengkap}</span>
         )}
-
-        <input type="submit" name="submit" value="next" />
-      </form>
-    </>
+      </Paper>
+      <div className="input-container">
+        <input
+          className="input-submit"
+          type="submit"
+          name="submit"
+          value="next"
+        />
+      </div>
+    </form>
   );
 };
 

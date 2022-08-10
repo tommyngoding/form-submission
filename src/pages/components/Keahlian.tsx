@@ -1,3 +1,4 @@
+import { Button, Paper } from "@mui/material";
 import { useState } from "react";
 import {
   DaftarKeahlianErrorMessage,
@@ -51,22 +52,28 @@ export const Keahlian = ({
   return (
     <>
       <form>
-        {Array.from(Array(totalInput).keys()).map((number) => (
-          <div key={number}>
-            <input
-              placeholder="Input skill"
-              value={fields.daftarKeahlian[number].nama}
-              onChange={handleChange}
-            />{" "}
-            <br />
-            {errorMessage.daftarError[number].nama.length > 0 && (
-              <span>{errorMessage.daftarError[number].nama}</span>
-            )}
-          </div>
-        ))}
+        <Paper className="paper-form">
+          {Array.from(Array(totalInput).keys()).map((number) => (
+            <div key={number}>
+              <input
+                placeholder="Input skill"
+                value={fields.daftarKeahlian[number].nama}
+                onChange={handleChange}
+              />{" "}
+              <br />
+              {errorMessage.daftarError[number].nama.length > 0 && (
+                <span>{errorMessage.daftarError[number].nama}</span>
+              )}
+            </div>
+          ))}
 
-        <button onClick={handleAdd}>+ Add another skill</button>
-        <button onClick={handleSubmit}>Submit</button>
+          <button onClick={handleAdd}>+ Add another skill</button>
+        </Paper>
+        <div className="input-container">
+          <Button variant="outlined" color="info" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </div>
       </form>
     </>
   );

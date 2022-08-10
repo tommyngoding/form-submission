@@ -1,3 +1,4 @@
+import { Paper } from "@mui/material";
 import React, { useState } from "react";
 import {
   RiwayataPendidikanErrorMessage,
@@ -56,29 +57,37 @@ export const RiwayatPendidikan = ({
       <div>
         <div>
           <form onSubmit={handleSubmit}>
-            <RiwayatPendidikanFields
-              prefix="first"
-              pendidikan={fields.daftarSekolah[0]}
-              errorMessage={errorMessage.daftarError[0]}
-              handleChange={handleChange}
-            />
-            {showSecondBox && (
+            <Paper className="paper-form">
               <RiwayatPendidikanFields
-                prefix="second"
-                pendidikan={fields.daftarSekolah[1]}
-                errorMessage={errorMessage.daftarError[1]}
+                prefix="first"
+                pendidikan={fields.daftarSekolah[0]}
+                errorMessage={errorMessage.daftarError[0]}
                 handleChange={handleChange}
               />
-            )}
-            {!showSecondBox && (
-              <AddForm
-                onClick={handleAdd}
-                testId="add-riwayat-pendidikan"
-                text=" Add riwayat pendidikan"
+              {showSecondBox && (
+                <RiwayatPendidikanFields
+                  prefix="second"
+                  pendidikan={fields.daftarSekolah[1]}
+                  errorMessage={errorMessage.daftarError[1]}
+                  handleChange={handleChange}
+                />
+              )}
+              {!showSecondBox && (
+                <AddForm
+                  onClick={handleAdd}
+                  testId="add-riwayat-pendidikan"
+                  text=" Add riwayat pendidikan"
+                />
+              )}
+            </Paper>
+            <div className="input-container">
+              <input
+                className="input-submit"
+                type="submit"
+                name="submit"
+                value="next"
               />
-            )}
-
-            <input type="submit" name="submit" value="next" />
+            </div>
           </form>
         </div>
       </div>

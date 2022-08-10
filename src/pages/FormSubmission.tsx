@@ -22,6 +22,7 @@ import { RiwayatPendidikan } from "./components/RiwayatPendidikan";
 import { Keahlian } from "./components/Keahlian";
 import { SuccessStep } from "./components/SuccessStep";
 import { FormStepper } from "./components/FormStepper";
+import { Container } from "@mui/material";
 
 export const FormSubmission = () => {
   const {
@@ -323,7 +324,7 @@ export const FormSubmission = () => {
   };
 
   return (
-    <>
+    <Container>
       <h1>Form submission</h1>
       <FormStepper currentStep={currentIndexStep} />
       {(() => {
@@ -368,6 +369,6 @@ export const FormSubmission = () => {
             );
         }
       })()}
-    </>
+    </Container>
   );
 };
