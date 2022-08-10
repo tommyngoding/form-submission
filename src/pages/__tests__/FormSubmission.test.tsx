@@ -45,6 +45,13 @@ describe("FormSubmission", () => {
       screen.getByRole("textbox", { name: /nama perusahaan/i }),
       "perusahaan 1"
     );
+    user.type(screen.getByRole("textbox", { name: /jabatan/i }), "jabatan 1");
+    user.type(screen.getByRole("textbox", { name: /tahun masuk/i }), "2000");
+    user.type(screen.getByRole("textbox", { name: /tahun keluar/i }), "2021");
+    user.type(
+      screen.getByRole("textbox", { name: /deskripsi pekerjaan/i }),
+      "deskripsi 1"
+    );
     user.click(screen.getByRole("button", { name: /continue to keahlian/i }));
   };
 

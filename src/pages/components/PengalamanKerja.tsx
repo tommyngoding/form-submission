@@ -21,9 +21,17 @@ const defaultProps: PengalamanKerjaProps = {
     daftarKerja: [
       {
         namaPerusahaan: "",
+        jabatan: "",
+        tahunMasuk: "",
+        tahunKeluar: "",
+        deskripsiPekerjaan: "",
       },
       {
         namaPerusahaan: "",
+        jabatan: "",
+        tahunMasuk: "",
+        tahunKeluar: "",
+        deskripsiPekerjaan: "",
       },
     ],
   },
@@ -31,9 +39,17 @@ const defaultProps: PengalamanKerjaProps = {
     daftarError: [
       {
         namaPerusahaan: "",
+        jabatan: "",
+        tahunMasuk: "",
+        tahunKeluar: "",
+        deskripsiPekerjaan: "",
       },
       {
         namaPerusahaan: "",
+        jabatan: "",
+        tahunMasuk: "",
+        tahunKeluar: "",
+        deskripsiPekerjaan: "",
       },
     ],
   },

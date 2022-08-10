@@ -103,3 +103,22 @@ a {
 .back-button {
   color: #282c34 !important;
 }
+
+.detail h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+.detail p {
+  margin-bottom: 10px;
+}
+
+.use-bottom-line {
+  border-bottom: 1px solid #878787;
+}
+.rata-kiri {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}

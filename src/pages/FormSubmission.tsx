@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 import {
   noErrorMessage,
   validateDataPersonal,
+  validateKerja,
   validatePendidikan,
 } from "../validator";
 
@@ -106,9 +107,17 @@ export const FormSubmission = () => {
       daftarKerja: [
         {
           namaPerusahaan: "",
+          jabatan: "",
+          tahunMasuk: "",
+          tahunKeluar: "",
+          deskripsiPekerjaan: "",
         },
         {
           namaPerusahaan: "",
+          jabatan: "",
+          tahunMasuk: "",
+          tahunKeluar: "",
+          deskripsiPekerjaan: "",
         },
       ],
     });
@@ -118,35 +127,29 @@ export const FormSubmission = () => {
       daftarError: [
         {
           namaPerusahaan: "",
+          jabatan: "",
+          tahunMasuk: "",
+          tahunKeluar: "",
+          deskripsiPekerjaan: "",
         },
         {
           namaPerusahaan: "",
+          jabatan: "",
+          tahunMasuk: "",
+          tahunKeluar: "",
+          deskripsiPekerjaan: "",
         },
       ],
     });
 
   const [daftarKeahlianFields, setDaftarKeahlianFields] =
     useState<DaftarKeahlianType>({
-      daftarKeahlian: [
-        {
-          nama: "",
-        },
-        {
-          nama: "",
-        },
-      ],
+      daftarKeahlian: Array.from({ length: 10 }, () => ({ nama: "" })),
     });
 
   const [daftarKeahlianErMsg, setDaftarKeahlianErMsg] =
     useState<DaftarKeahlianErrorMessage>({
-      daftarError: [
-        {
-          nama: "",
-        },
-        {
-          nama: "",
-        },
-      ],
+      daftarError: Array.from({ length: 10 }, () => ({ nama: "" })),
     });
 
   const dataPersonalSubmit = (e: React.SyntheticEvent) => {
@@ -167,7 +170,7 @@ export const FormSubmission = () => {
     const erMsg = validatePendidikan(riwayatPendidikanFields.daftarSekolah[0]);
 
     setRiwayatPendidikanErMsg({
-      daftarError: [erMsg],
+      daftarError: [erMsg, riwayatPendidikanErMsg.daftarError[1]],
     });
 
     if (noErrorMessage(erMsg)) {
@@ -192,6 +195,9 @@ export const FormSubmission = () => {
     if (pos >= 0) {
       finalName = name.slice(5, name.length);
       indexData = 0;
+    } else {
+      finalName = name.slice(6, name.length);
+      indexData = 1;
     }
 
     if (indexData === 0) {
@@ -205,35 +211,30 @@ export const FormSubmission = () => {
           riwayatPendidikanFields.daftarSekolah[1],
         ],
       });
+    } else {
+      setRiwayatPendidikanFields({
+        ...riwayatPendidikanFields,
+        daftarSekolah: [
+          riwayatPendidikanFields.daftarSekolah[0],
+          {
+            ...riwayatPendidikanFields.daftarSekolah[1],
+            [finalName]: e.currentTarget.value,
+          },
+        ],
+      });
     }
   };
 
   const pengalamanKerjaSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (pengalamanKerjaFields.daftarKerja[0].namaPerusahaan.length === 0) {
-      setPengalamanKerjaErMsg({
-        ...pengalamanKerjaErMsg,
-        daftarError: [
-          {
-            namaPerusahaan: "Nama perusahaan tidak boleh kosong",
-          },
-          {
-            namaPerusahaan: "",
-          },
-        ],
-      });
-    } else {
-      setPengalamanKerjaErMsg({
-        ...pengalamanKerjaErMsg,
-        daftarError: [
-          {
-            namaPerusahaan: "",
-          },
-          {
-            namaPerusahaan: "",
-          },
-        ],
-      });
+
+    const erMsg = validateKerja(pengalamanKerjaFields.daftarKerja[0]);
+
+    setPengalamanKerjaErMsg({
+      daftarError: [erMsg, pengalamanKerjaErMsg.daftarError[1]],
+    });
+
+    if (noErrorMessage(erMsg)) {
       updateStep(KEAHLIAN);
     }
   };
@@ -241,17 +242,41 @@ export const FormSubmission = () => {
   const pengalamanKerjaHandleChange = (
     e: React.FormEvent<HTMLInputElement>
   ) => {
-    setPengalamanKerjaFields({
-      ...pengalamanKerjaFields,
-      daftarKerja: [
-        {
-          namaPerusahaan: e.currentTarget.value,
-        },
-        {
-          namaPerusahaan: "",
-        },
-      ],
-    });
+    const name = e.currentTarget.name;
+    let pos = name.search("first");
+    let finalName = "";
+    let indexData = -1;
+    if (pos >= 0) {
+      finalName = name.slice(5, name.length);
+      indexData = 0;
+    } else {
+      finalName = name.slice(6, name.length);
+      indexData = 1;
+    }
+
+    if (indexData === 0) {
+      setPengalamanKerjaFields({
+        ...pengalamanKerjaFields,
+        daftarKerja: [
+          {
+            ...pengalamanKerjaFields.daftarKerja[0],
+            [finalName]: e.currentTarget.value,
+          },
+          pengalamanKerjaFields.daftarKerja[1],
+        ],
+      });
+    } else {
+      setPengalamanKerjaFields({
+        ...pengalamanKerjaFields,
+        daftarKerja: [
+          pengalamanKerjaFields.daftarKerja[0],
+          {
+            ...pengalamanKerjaFields.daftarKerja[1],
+            [finalName]: e.currentTarget.value,
+          },
+        ],
+      });
+    }
   };
 
   const daftarKeahlianSubmit = (e: React.SyntheticEvent) => {
@@ -287,16 +312,14 @@ export const FormSubmission = () => {
   };
 
   const daftarKeahlianHandleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const name = e.currentTarget.name;
+    let index = parseInt(name[0]);
+    let currentDaftarKeahlian = [...daftarKeahlianFields.daftarKeahlian];
+    currentDaftarKeahlian[index].nama = e.currentTarget.value;
+
     setDaftarKeahlianFields({
       ...daftarKeahlianFields,
-      daftarKeahlian: [
-        {
-          nama: e.currentTarget.value,
-        },
-        {
-          nama: "",
-        },
-      ],
+      daftarKeahlian: currentDaftarKeahlian,
     });
   };
 
@@ -313,7 +336,7 @@ export const FormSubmission = () => {
         summary: {
           id: Date.now(),
           nama: dataPersonalFields.namaLengkap,
-          alamat: "[dummy]",
+          alamat: dataPersonalFields.alamat,
         },
         detail: {
           dataPersonal: dataPersonalFields,

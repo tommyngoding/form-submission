@@ -6,9 +6,17 @@ describe("PengalamanKerjaFields", () => {
   it("renders label, input and error message", () => {
     const kerja: Kerja = {
       namaPerusahaan: "PT. Jaya",
+      jabatan: "",
+      tahunMasuk: "",
+      tahunKeluar: "",
+      deskripsiPekerjaan: "",
     };
     const errMsg: KerjaErrorMessage = {
       namaPerusahaan: "Error sample",
+      jabatan: "",
+      tahunMasuk: "",
+      tahunKeluar: "",
+      deskripsiPekerjaan: "",
     };
     render(
       <PengalamanKerjaFields

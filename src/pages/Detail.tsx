@@ -1,5 +1,6 @@
+import { Button, Container, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { LOCALSTORAGE_KEYNAME } from "../constants";
 import { DataPersonal } from "../entity/DataPersonal";
 import { DaftarKeahlian } from "../entity/Keahlian";
@@ -38,42 +39,82 @@ export const Detail = () => {
   console.log(submissionId);
 
   return (
-    <div>
-      <h1>Detail</h1>
-      {data && (
-        <div>
-          <p>
-            <b>Data Personal</b>
-            <div>
-              <div>Nama Lengkap : {data.detail.dataPersonal.namaLengkap}</div>
+    <Container className="detail">
+      <Paper style={{ padding: "20px" }}>
+        {data && (
+          <div>
+            <div className="use-bottom-line rata-kiri">
+              <h1>{data.detail.dataPersonal.namaLengkap}</h1>
+              <h3>{data.detail.pengalamanKerja.daftarKerja[0].jabatan}</h3>
+              <h3>
+                {data.detail.pengalamanKerja.daftarKerja[0].namaPerusahaan}
+              </h3>
+              <div
+                className="rata-kiri"
+                style={{
+                  margin: "20px 0",
+                }}
+              >
+                <div>
+                  {data.detail.dataPersonal.nomorTelepon} |{" "}
+                  {data.detail.dataPersonal.email}
+                </div>
+                <div>{data.detail.dataPersonal.alamat}</div>
+              </div>
             </div>
-          </p>
-          <p>
-            <b>Riwayat Pendidikan</b>
-            {data.detail.riwayatPendidikan.daftarSekolah.map((sekolah) => (
-              <div>
-                <div>Nama Sekolah : {sekolah.namaSekolah}</div>
-              </div>
-            ))}
-          </p>
-          <p>
-            <b>Pengalaman Kerja</b>
-            {data.detail.pengalamanKerja.daftarKerja.map((kerja) => (
-              <div>
-                <div>Nama Perusahaan : {kerja.namaPerusahaan}</div>
-              </div>
-            ))}
-          </p>
-          <p>
-            <b>Keahlian</b>
-            {data.detail.daftarKeahlian.daftarKeahlian.map((skill) => (
-              <div>
-                <div>Nama Skill : {skill.nama}</div>
-              </div>
-            ))}
-          </p>
+
+            <div className="use-bottom-line rata-kiri">
+              <h4>Pengalaman Kerja</h4>
+              {data.detail.pengalamanKerja.daftarKerja
+                .filter((kerja) => kerja.namaPerusahaan.length > 0)
+                .map((kerja) => (
+                  <div className="rata-kiri">
+                    <h3>{kerja.jabatan}</h3>
+                    <p>{kerja.namaPerusahaan}</p>
+                    <p>
+                      {kerja.tahunMasuk} - {kerja.tahunKeluar}
+                    </p>
+                    <p>{kerja.deskripsiPekerjaan}</p>
+                  </div>
+                ))}
+            </div>
+
+            <div className="use-bottom-line rata-kiri">
+              <h4>Riwayat Pendidikan</h4>
+              {data.detail.riwayatPendidikan.daftarSekolah
+                .filter((sekolah) => sekolah.namaSekolah.length > 0)
+                .map((sekolah) => (
+                  <div className="rata-kiri">
+                    <h3>{sekolah.namaSekolah}</h3>
+                    <p>
+                      {sekolah.jenjang} - {sekolah.jurusan}
+                    </p>
+                    <p>
+                      {sekolah.tahunMasuk} - {sekolah.tahunLulus}
+                    </p>
+                    <p>IPK : {sekolah.ipk}</p>
+                  </div>
+                ))}
+            </div>
+
+            <div className="use-bottom-line rata-kiri">
+              <h4>Keahlian</h4>
+              <p>
+                {data.detail.daftarKeahlian.daftarKeahlian
+                  .filter((skill) => skill.nama.length > 0)
+                  .map((skill) => (
+                    <span>{skill.nama} , </span>
+                  ))}
+              </p>
+            </div>
+          </div>
+        )}
+        <div className="rata-kiri" style={{ padding: "20px 0" }}>
+          <Link to="/">
+            <Button>{` < Back to Home`}</Button>
+          </Link>
         </div>
-      )}
-    </div>
+      </Paper>
+    </Container>
   );
 };

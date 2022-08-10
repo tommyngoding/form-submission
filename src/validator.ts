@@ -1,4 +1,5 @@
 import { DataPersonal, DataPersonalErrorMessage } from "./entity/DataPersonal";
+import { Kerja, KerjaErrorMessage } from "./entity/PengalamanKerja";
 import { Pendidikan, PendidikanErrorMessage } from "./entity/RiwayatPendidikan";
 
 export const validateDataPersonal = (
@@ -57,6 +58,35 @@ export const validatePendidikan = (
   }
   if (pendidikan.tahunLulus.length === 0) {
     erMsg.tahunLulus = "Tahun lulus tidak boleh kosong";
+  }
+
+  return erMsg;
+};
+
+export const validateKerja = (kerja: Kerja): KerjaErrorMessage => {
+  let erMsg: KerjaErrorMessage = {
+    namaPerusahaan: "",
+    jabatan: "",
+    tahunMasuk: "",
+    tahunKeluar: "",
+    deskripsiPekerjaan: "",
+  };
+
+  if (kerja.namaPerusahaan.length === 0) {
+    erMsg.namaPerusahaan = "Nama perusahaan tidak boleh kosong";
+  }
+  if (kerja.jabatan.length === 0) {
+    erMsg.jabatan = "Jabatan tidak boleh kosong";
+  }
+  if (kerja.tahunMasuk.length === 0) {
+    erMsg.tahunMasuk = "Tahun masuk tidak boleh kosong";
+  }
+
+  if (kerja.tahunKeluar.length === 0) {
+    erMsg.tahunKeluar = "Tahun keluar tidak boleh kosong";
+  }
+  if (kerja.deskripsiPekerjaan.length === 0) {
+    erMsg.deskripsiPekerjaan = "Deskripsi pekerjaan tidak boleh kosong";
   }
 
   return erMsg;

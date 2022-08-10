@@ -2,6 +2,7 @@ import { Submission } from "../../entity/Submission";
 import { Link } from "react-router-dom";
 import {
   Button,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -10,6 +11,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { FileSearchOutlined } from "@ant-design/icons";
 
 interface SubmissionTableProsp {
   submissions: Submission[];
@@ -39,7 +41,13 @@ export const SubmissionTable = ({ submissions }: SubmissionTableProsp) => {
               <TableCell>{submission.alamat}</TableCell>
               <TableCell>
                 <Link to={`/detail/${submission.id}`}>
-                  <Button variant="outlined">Detail</Button>
+                  <IconButton
+                    color="primary"
+                    aria-label="detail view"
+                    component="label"
+                  >
+                    <FileSearchOutlined />
+                  </IconButton>
                 </Link>
               </TableCell>
             </TableRow>

@@ -1,5 +1,9 @@
 export interface Kerja {
   namaPerusahaan: string;
+  jabatan: string;
+  tahunMasuk: string;
+  tahunKeluar: string;
+  deskripsiPekerjaan: string;
 }
 
 export interface PengalamanKerja {
@@ -8,6 +12,10 @@ export interface PengalamanKerja {
 
 export interface KerjaErrorMessage {
   namaPerusahaan: string;
+  jabatan: string;
+  tahunMasuk: string;
+  tahunKeluar: string;
+  deskripsiPekerjaan: string;
 }
 
 export interface PengalamanKerjaErrorMessage {

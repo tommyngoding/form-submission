@@ -16,24 +16,10 @@ interface KeahlianProps {
 const defaultProps: KeahlianProps = {
   handleSubmit: () => {},
   fields: {
-    daftarKeahlian: [
-      {
-        nama: "",
-      },
-      {
-        nama: "",
-      },
-    ],
+    daftarKeahlian: Array.from({ length: 10 }, () => ({ nama: "" })),
   },
   errorMessage: {
-    daftarError: [
-      {
-        nama: "",
-      },
-      {
-        nama: "",
-      },
-    ],
+    daftarError: Array.from({ length: 10 }, () => ({ nama: "" })),
   },
   handleChange: () => {},
   handleBack: () => {},
@@ -47,10 +33,13 @@ export const Keahlian = ({
   handleBack,
 }: KeahlianProps) => {
   const [totalInput, setTotalInput] = useState(1);
+  const maxInput = 10;
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
-    setTotalInput(totalInput + 1);
+    if (totalInput < maxInput) {
+      setTotalInput(totalInput + 1);
+    }
   };
   return (
     <>
@@ -75,10 +64,14 @@ export const Keahlian = ({
               />
             </div>
           ))}
-
-          <button onClick={handleAdd} style={{ width: "100%", height: "50px" }}>
-            + Add another skill
-          </button>
+          {totalInput < maxInput && (
+            <button
+              onClick={handleAdd}
+              style={{ width: "100%", height: "50px" }}
+            >
+              + Add another skill
+            </button>
+          )}
         </Paper>
         <div className="input-container">
           <Button onClick={handleBack} className="back-button">
