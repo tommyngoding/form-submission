@@ -1,10 +1,15 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { submissions } from "../../../dummyData";
 import { SubmissionTable } from "../SubmissionTable";
 
 describe("SubmissionTable", () => {
   it("renders column headers", () => {
-    render(<SubmissionTable submissions={[]} />);
+    render(
+      <MemoryRouter>
+        <SubmissionTable submissions={[]} />
+      </MemoryRouter>
+    );
     expect(
       screen.getByRole("columnheader", { name: "ID No." })
     ).toBeInTheDocument();
@@ -17,7 +22,11 @@ describe("SubmissionTable", () => {
   });
 
   it("renders data", () => {
-    render(<SubmissionTable submissions={submissions} />);
+    render(
+      <MemoryRouter>
+        <SubmissionTable submissions={submissions} />
+      </MemoryRouter>
+    );
     expect(screen.getAllByRole("row")).toHaveLength(5);
     expect(
       screen.getByRole("cell", { name: submissions[0].id.toString() })

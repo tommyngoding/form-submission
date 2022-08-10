@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { STEPS } from "../constants";
+import { LOCALSTORAGE_KEYNAME, STEPS } from "../constants";
 import {
   DataPersonal as DataPersonalType,
   DataPersonalErrorMessage,
@@ -20,10 +20,16 @@ import { DataPersonal } from "./components/DataPersonal";
 import { PengalamanKerja } from "./components/PengalamanKerja";
 import { RiwayatPendidikan } from "./components/RiwayatPendidikan";
 import { Keahlian } from "./components/Keahlian";
+import { SuccessStep } from "./components/SuccessStep";
 
 export const FormSubmission = () => {
-  const { DATA_PERSONAL, RIWAYAT_PENDIDIKAN, PENGALAMAN_KERJA, KEAHLIAN } =
-    STEPS;
+  const {
+    DATA_PERSONAL,
+    RIWAYAT_PENDIDIKAN,
+    PENGALAMAN_KERJA,
+    KEAHLIAN,
+    SUCCESSSTEP,
+  } = STEPS;
   const [currentStep, setCurrentStep] = useState(DATA_PERSONAL);
 
   const [dataPersonalFields, setDataPersonalFields] =
@@ -248,7 +254,8 @@ export const FormSubmission = () => {
           },
         ],
       });
-      // setCurrentStep(KEAHLIAN);
+      storeToLocal();
+      setCurrentStep(SUCCESSSTEP);
     }
   };
 
@@ -264,6 +271,35 @@ export const FormSubmission = () => {
         },
       ],
     });
+  };
+
+  const storeToLocal = () => {
+    const dataLocal = localStorage.getItem(LOCALSTORAGE_KEYNAME);
+
+    let saveData = [];
+    if (dataLocal) {
+      saveData = JSON.parse(dataLocal);
+    }
+
+    const newData = [
+      {
+        summary: {
+          id: Date.now(),
+          nama: dataPersonalFields.namaLengkap,
+          alamat: "[dummy]",
+        },
+        detail: {
+          dataPersonal: dataPersonalFields,
+          riwayatPendidikan: riwayatPendidikanFields,
+          pengalamanKerja: pengalamanKerjaFields,
+          daftarKeahlian: daftarKeahlianFields,
+        },
+      },
+    ];
+
+    saveData = [...saveData, ...newData];
+
+    localStorage.setItem(LOCALSTORAGE_KEYNAME, JSON.stringify(saveData));
   };
 
   return (
@@ -298,6 +334,8 @@ export const FormSubmission = () => {
                 handleChange={daftarKeahlianHandleChange}
               />
             );
+          case SUCCESSSTEP:
+            return <SuccessStep />;
           default:
             return (
               <DataPersonal

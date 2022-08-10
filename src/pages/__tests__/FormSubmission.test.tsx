@@ -1,8 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import { FormSubmission } from "../FormSubmission";
 import user from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
 
 describe("FormSubmission", () => {
+  const renderWithRouter = () => {
+    render(
+      <MemoryRouter>
+        <FormSubmission />
+      </MemoryRouter>
+    );
+  };
+
   const fillDataPersonalAndSubmit = () => {
     user.type(screen.getByRole("textbox", { name: /nama lengkap/i }), "tiara");
     user.click(screen.getByRole("button", { name: /next/i }));
@@ -22,6 +31,18 @@ describe("FormSubmission", () => {
       "perusahaan 1"
     );
     user.click(screen.getByRole("button", { name: /next/i }));
+  };
+
+  const fillDaftarKeahlianAndSubmit = () => {
+    user.type(screen.getByPlaceholderText("Input skill"), "javascript");
+    user.click(screen.getByRole("button", { name: /submit/i }));
+  };
+
+  const fillAllInformationAndSubmit = () => {
+    fillDataPersonalAndSubmit();
+    fillRiwayatPendidikanAndSubmit();
+    fillPengalamanKerjaAndSubmit();
+    fillDaftarKeahlianAndSubmit();
   };
 
   it("renders error message when next button is clicked", () => {
@@ -129,16 +150,25 @@ describe("FormSubmission", () => {
   });
 
   it("hides error message when keahlian field is filled and next button is clicked", () => {
-    render(<FormSubmission />);
+    renderWithRouter();
     fillDataPersonalAndSubmit();
     fillRiwayatPendidikanAndSubmit();
     fillPengalamanKerjaAndSubmit();
     user.click(screen.getByRole("button", { name: /submit/i }));
     expect(screen.getByText(/skill tidak boleh kosong/i)).toBeInTheDocument();
-    user.type(screen.getByPlaceholderText("Input skill"), "javascript");
-    user.click(screen.getByRole("button", { name: /submit/i }));
+    fillDaftarKeahlianAndSubmit();
     expect(
       screen.queryByText(/skill tidak boleh kosong/i)
     ).not.toBeInTheDocument();
+  });
+
+  it("shows next step when fields are filled and next button on daftar keahlian is clicked", () => {
+    renderWithRouter();
+
+    fillDataPersonalAndSubmit();
+    fillRiwayatPendidikanAndSubmit();
+    fillPengalamanKerjaAndSubmit();
+    fillDaftarKeahlianAndSubmit();
+    expect(screen.getByText(/data tersimpan/i)).toBeInTheDocument();
   });
 });

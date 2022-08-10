@@ -1,4 +1,5 @@
 import { Submission } from "../../entity/Submission";
+import { Link } from "react-router-dom";
 
 interface SubmissionTableProsp {
   submissions: Submission[];
@@ -21,7 +22,11 @@ export const SubmissionTable = ({ submissions }: SubmissionTableProsp) => {
             <td>{submission.id}</td>
             <td>{submission.nama}</td>
             <td>{submission.alamat}</td>
-            <td></td>
+            <td>
+              <Link to={`/detail/${submission.id}`}>
+                <button>Detail</button>
+              </Link>
+            </td>
           </tr>
         ))}
       </tbody>
